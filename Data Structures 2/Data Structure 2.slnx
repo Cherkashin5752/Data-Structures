@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Data Structure 2 (Analysis)/Data Structure 2 (Analysis).vcxproj" Id="9b3bedc0-8d61-45c9-a66a-54b7a9c3a070" />
+  <Project Path="Data Structure 2/Data Structure 2.vcxproj" Id="3bc6ec10-601c-416f-b291-7f3175808b32" />
+</Solution>
