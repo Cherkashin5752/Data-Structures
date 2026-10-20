@@ -7,236 +7,362 @@
 #include "List.h"
 #include "Node.h"
 
-int main()
+void DynamicArrayRemoveByIndex(DynamicArray* arr, int index, const int size, const int iterations)
 {
-	SetConsoleCP(65001);
-	SetConsoleOutputCP(65001);
-
-	std::vector<int> sizes = { 1000, 10000, 50000, 100000 };
-	int iterations = 100;
-
-	std::cout << "Операция вставки в начало" << std::endl;
-	std::cout << "Динамический массив \t Двухсвязный список" << std::endl;
-
-	for (int n : sizes)
+	int targetIndex = index;
+	for (int i = 0; i < 5; i++)
 	{
-		DynamicArray arr;
-		for (int i = 0; i < n; i++)
-		{
-			arr.AppendElement(i);
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			arr.AddElementAt(0, 999);
-			arr.RemoveByIndex(0);
-		}
-
-		auto startArr = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			arr.AddElementAt(0, 999);
-			arr.RemoveByIndex(0);
-		}
-		
-		auto endArr = std::chrono::high_resolution_clock::now();
-		double timeArr = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endArr - startArr).count()) / iterations;
-	
-		List list;
-		for (int i = 0; i < n; i++)
-		{
-			Node* nd = new Node();
-			nd->SetData(i);
-			list.AddNode(nd, list.GetSize());
-		}
-
-		for (int i = 0; i < 5; i++)
-		{
-			Node* temp = new Node();
-			list.AddNode(temp, 0);
-			list.RemoveNodeByIndex(0);
-		}
-
-		auto startList = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			Node* newNode = new Node();
-			newNode->SetData(999);
-			list.AddNode(newNode, 0);
-			list.RemoveNodeByIndex(0);
-		}
-		auto endList = std::chrono::high_resolution_clock::now();
-		double timeList = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endList - startList).count()) / iterations;
-	
-		std::cout << timeArr << "\t\t\t " << timeList << std::endl << std::endl;
+		arr->AppendElement(5);
+		arr->RemoveByIndex(0);
 	}
 
-	std::cout << "Операция вставки в конец" << std::endl;
-	std::cout << "Динамический массив \t Двухсвязный список" << std::endl;
-
-	for (int n : sizes)
+	for (int i = 0; i < size; i++)
 	{
-		DynamicArray arr;
-		
-		for (int i = 0; i < n; i++)
-		{
-			arr.AppendElement(i);
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			arr.AddElementAt(arr.GetSize(), 999);
-			arr.RemoveByIndex(arr.GetSize() - 1);
-		}
-
-		auto startArr = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			arr.AddElementAt(arr.GetSize(), 999);
-			arr.RemoveByIndex(arr.GetSize() - 1);
-		}
-
-		auto endArr = std::chrono::high_resolution_clock::now();
-		double timeArr = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endArr - startArr).count()) / iterations;
-
-		List list;
-		for (int i = 0; i < n; i++)
-		{
-			Node* nd = new Node();
-			nd->SetData(i);
-			list.AddNode(nd, list.GetSize());
-		}
-
-		for (int i = 0; i < 5; i++)
-		{
-			Node* temp = new Node();
-			list.AddNode(temp, list.GetSize());
-			list.RemoveNodeByIndex(list.GetSize() - 1);
-		}
-
-		auto startList = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			Node* newNode = new Node();
-			newNode->SetData(999);
-			list.AddNode(newNode, list.GetSize());
-			list.RemoveNodeByIndex(list.GetSize() - 1);
-		}
-		auto endList = std::chrono::high_resolution_clock::now();
-		double timeList = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endList - startList).count()) / iterations;
-
-		std::cout << timeArr << "\t\t\t " << timeList << std::endl << std::endl;
+		arr->AppendElement(999);
 	}
 
-	std::cout << "Операция вставки в середину" << std::endl;
-	std::cout << "Динамический массив \t Двухсвязный список" << std::endl;
+	auto start = std::chrono::high_resolution_clock::now();
 
-	for (int n : sizes)
+	if (index == 0)
 	{
-		DynamicArray arr;
-
-		for (int i = 0; i < n; i++)
-		{
-			arr.AppendElement(i);
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			arr.AddElementAt(arr.GetSize() / 2, 999);
-			arr.RemoveByIndex(arr.GetSize() / 2);
-		}
-
-		auto startArr = std::chrono::high_resolution_clock::now();
+		start = std::chrono::high_resolution_clock::now();
 		for (int i = 0; i < iterations; i++)
 		{
-			arr.AddElementAt(arr.GetSize() / 2, 999);
-			arr.RemoveByIndex(arr.GetSize() / 2);
+			arr->RemoveByIndex(index);
 		}
-
-		auto endArr = std::chrono::high_resolution_clock::now();
-		double timeArr = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endArr - startArr).count()) / iterations;
-
-		List list;
-		for (int i = 0; i < n; i++)
+	}
+	else
+	{
+		if (index == size)
 		{
-			Node* nd = new Node();
-			nd->SetData(i);
-			list.AddNode(nd, list.GetSize());
+			start = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < iterations; i++)
+			{
+				arr->RemoveByIndex(targetIndex);
+				targetIndex = arr->GetSize();
+			}
 		}
-
-		for (int i = 0; i < 5; i++)
+		else
 		{
-			Node* temp = new Node();
-			list.AddNode(temp, list.GetSize() / 2);
-			list.RemoveNodeByIndex(list.GetSize() / 2);
+			if (index == size / 2)
+			{
+				start = std::chrono::high_resolution_clock::now();
+				for (int i = 0; i < iterations; i++)
+				{
+					arr->RemoveByIndex(targetIndex);
+					targetIndex = arr->GetSize() / 2;
+				}
+			}
 		}
-
-		auto startList = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			Node* newNode = new Node();
-			newNode->SetData(999);
-			list.AddNode(newNode, list.GetSize() / 2);
-			list.RemoveNodeByIndex(list.GetSize() / 2);
-		}
-		auto endList = std::chrono::high_resolution_clock::now();
-		double timeList = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endList - startList).count()) / iterations;
-
-		std::cout << timeArr << "\t\t\t " << timeList << std::endl << std::endl;
 	}
 
-	std::cout << "Операция удаления из начала" << std::endl;
-	std::cout << "Динамический массив \t Двухсвязный список" << std::endl;
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 
-	for (int n : sizes)
+	double time_per_operation = static_cast<double>(duration.count()) / iterations;
+
+	std::cout << "[DynamicArray] Size: " << size
+		<< " | Index: " << index
+		<< " | Average time to remove: " << time_per_operation << " mcs\n";
+}
+
+void DynamicArrayAddByIndex(DynamicArray* arr, int index, const int size, const int iterations)
+{
+	int targetIndex = index;
+	for (int i = 0; i < 5; i++)
 	{
-		DynamicArray arr;
-
-		for (int i = 0; i < n; i++)
-		{
-			arr.AppendElement(i);
-		}
-		for (int i = 0; i < 5; i++)
-		{
-			arr.RemoveByIndex(arr.GetSize() / 2);
-			arr.AddElementAt(arr.GetSize() / 2, 999);
-		}
-
-		auto startArr = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			arr.AddElementAt(arr.GetSize() / 2, 999);
-			arr.RemoveByIndex(arr.GetSize() / 2);
-		}
-
-		auto endArr = std::chrono::high_resolution_clock::now();
-		double timeArr = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endArr - startArr).count()) / iterations;
-
-		List list;
-		for (int i = 0; i < n; i++)
-		{
-			Node* nd = new Node();
-			nd->SetData(i);
-			list.AddNode(nd, list.GetSize());
-		}
-
-		for (int i = 0; i < 5; i++)
-		{
-			Node* temp = new Node();
-			list.AddNode(temp, list.GetSize() / 2);
-			list.RemoveNodeByIndex(list.GetSize() / 2);
-		}
-
-		auto startList = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < iterations; i++)
-		{
-			Node* newNode = new Node();
-			newNode->SetData(999);
-			list.AddNode(newNode, list.GetSize() / 2);
-			list.RemoveNodeByIndex(list.GetSize() / 2);
-		}
-		auto endList = std::chrono::high_resolution_clock::now();
-		double timeList = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(endList - startList).count()) / iterations;
-
-		std::cout << timeArr << "\t\t\t " << timeList << std::endl << std::endl;
+		arr->AppendElement(5);
+		arr->RemoveByIndex(0);
 	}
 
-	return 0;
+	for (int i = 0; i < size; i++)
+	{
+		arr->AppendElement(999);
+	}
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	if (index == 0)
+	{
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < iterations; i++)
+		{
+			arr->AddElementAt(index, 999);
+		}
+	}
+	else
+	{
+		if (index == size)
+		{
+			start = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < iterations; i++)
+			{
+				arr->AddElementAt(targetIndex, 999);
+				targetIndex = arr->GetSize();
+			}
+		}
+		else
+		{
+			if (index == size / 2)
+			{
+				start = std::chrono::high_resolution_clock::now();
+				for (int i = 0; i < iterations; i++)
+				{
+					arr->AddElementAt(targetIndex, 999);
+					targetIndex = arr->GetSize() / 2;
+				}
+			}
+		}
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+	double time_per_operation = static_cast<double>(duration.count()) / iterations;
+
+	std::cout << "[DynamicArray] Size: " << size
+		<< " | Index: " << index
+		<< " | Average time to add: " << time_per_operation << " mcs\n";
+}
+
+void ListRemoveByIndex(List* list, int index, const int size, const int iterations)
+{
+	int targetIndex = index;
+	for (int i = 0; i < 5; i++)
+	{
+		Node* node = new Node();
+		node->SetData(999);
+		list->AddNode(node, 0);
+		list->RemoveNodeByIndex(0);
+	}
+
+	for (int i = 0; i < size; i++)
+	{
+		Node* node = new Node();
+		list->AddNode(node, 0);
+	}
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	if (index == 0)
+	{
+		start = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < iterations; i++)
+		{
+			list->RemoveNodeByIndex(index);
+		}
+	}
+	else
+	{
+		if (index == size)
+		{
+			start = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < iterations; i++)
+			{
+				list->RemoveNodeByIndex(targetIndex);
+				targetIndex = list->GetSize();
+			}
+		}
+		else
+		{
+			if (index == size / 2)
+			{
+				start = std::chrono::high_resolution_clock::now();
+				for (int i = 0; i < iterations; i++)
+				{
+					list->RemoveNodeByIndex(targetIndex);
+					targetIndex = list->GetSize() / 2;
+				}
+			}
+		}
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+	double time_per_operation = static_cast<double>(duration.count()) / iterations;
+
+	std::cout << "[List] Size: " << size
+		<< " | Index: " << index
+		<< " | Average time to remove: " << time_per_operation << " mcs\n";
+}
+
+void ListAddByIndex(List* list, int index, const int size, const int iterations)
+{
+	int targetIndex = index;
+	for (int i = 0; i < 5; i++)
+	{
+		Node* node = new Node();
+		node->SetData(999);
+		list->AddNode(node, 0);
+		list->RemoveNodeByIndex(0);
+	}
+
+	for (int i = 0; i < size; i++)
+	{
+		Node* node = new Node();
+		list->AddNode(node, 0);
+	}
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	if (index == 0)
+	{
+		start = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < iterations; i++)
+		{
+			Node* node = new Node();
+			list->AddNode(node, index);
+		}
+	}
+	else
+	{
+		if (index == size)
+		{
+			start = std::chrono::high_resolution_clock::now();
+			for (int i = 0; i < iterations; i++)
+			{
+				Node* node = new Node();
+				list->AddNode(node, targetIndex);
+				targetIndex = list->GetSize();
+			}
+		}
+		else
+		{
+			if (index == size / 2)
+			{
+				start = std::chrono::high_resolution_clock::now();
+				for (int i = 0; i < iterations; i++)
+				{
+					Node* node = new Node();
+					list->AddNode(node, targetIndex);
+					targetIndex = list->GetSize() / 2;
+				}
+			}
+		}
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+
+	double time_per_operation = static_cast<double>(duration.count()) / iterations;
+
+	std::cout << "[List] Size: " << size
+		<< " | Index: " << index
+		<< " | Average time to add: " << time_per_operation << " mcs\n";
+}
+
+void main()
+{
+	DynamicArray* arr;
+
+	int sizes[4] = {1000, 10000, 50000, 100000};
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayRemoveByIndex(arr, 0, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayRemoveByIndex(arr, size, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayRemoveByIndex(arr, size / 2, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayAddByIndex(arr, 0, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayAddByIndex(arr, size, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		arr = new DynamicArray();
+		DynamicArrayAddByIndex(arr, size / 2, size, 50);
+		delete arr;
+	}
+
+	std::cout << std::endl;
+
+	List* list = new List();
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListRemoveByIndex(list, 0, size, 50);
+		delete list;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListRemoveByIndex(list, size, size, 50);
+		delete list;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListRemoveByIndex(list, size / 2, size, 50);
+		delete list;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListAddByIndex(list, 0, size, 50);
+		delete list;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListAddByIndex(list, size, size, 50);
+		delete list;
+	}
+
+	std::cout << std::endl;
+
+	for (int size : sizes)
+	{
+		list = new List();
+		ListAddByIndex(list, size / 2, size, 50);
+		delete list;
+	}
 }
