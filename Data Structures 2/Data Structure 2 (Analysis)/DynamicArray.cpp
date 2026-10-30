@@ -191,7 +191,7 @@ int DynamicArray::LinearSearch(int value)
 int DynamicArray::BinarySearch(int value)
 {
 	int left = 0;
-	int right = _size;
+	int right = _size-1;
 
 	SortArray();
 
@@ -214,6 +214,6 @@ int DynamicArray::BinarySearch(int value)
 			}
 		}
 
-		if (right == left)	return -1;
+		if (right == left || right < left)	return -1;
 	}
 }
